@@ -8,15 +8,15 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class DealDialog extends Dialog {
-    public DealDialog() {
-        setHeaderTitle("Данные договора");
+public class ClientRequestDialog extends Dialog {
+    public ClientRequestDialog() {
+        setHeaderTitle("Оформление обращения");
         setWidth(800, Unit.PIXELS);
         setHeight(600, Unit.PIXELS);
 
         VerticalLayout dialogLayout = new VerticalLayout();
         add(dialogLayout);
-        dialogLayout.add(new Paragraph("Тут надо навалить контролов для показа деталей договора"));
+        dialogLayout.add(new Paragraph("Тут надо навалить контролов для оформления обращения: то есть выбор темы, заполнение комментария"));
 
         Button closeButton = new Button("Закрыть");
         closeButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {

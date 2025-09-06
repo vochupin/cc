@@ -34,6 +34,7 @@ public class DealsView extends VerticalLayout {
     @Autowired
     ClientService clientService;
 
+    private Button clientRequestButton;
     private Button searchButton;
     private final TextField phoneTextField;
     private final TextField idCardTextField;
@@ -52,6 +53,21 @@ public class DealsView extends VerticalLayout {
         VaadinSession.getCurrent().setAttribute("foo", new Object());
         HorizontalLayout horizontalLayout = new HorizontalLayout();
 
+        clientRequestButton = new Button("Создать обращение");
+        clientRequestButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> buttonClickEvent) {
+                if (searchButton.isEnabled()) {
+                    clientRequestButton.setText("Создать обращение");
+                    new ClientRequestDialog().open();
+                } else {
+                    clientRequestButton.setText("Оформить обращение");
+                }
+                toggleEnabled();
+            }
+        });
+        add(clientRequestButton);
+
         searchButton = new Button("Найти");
         searchButton.addClickListener(e -> {
             grid.setItems(clientService.all());
@@ -63,12 +79,15 @@ public class DealsView extends VerticalLayout {
         horizontalLayout.add(phoneTextField);
         horizontalLayout.add(idCardTextField);
 
-
         add(horizontalLayout);
         add(searchButton);
 
+        disableControls();
+
         // Create a Grid instance
         grid = new Grid<>(Client.class, false); // 'false' prevents auto-creating columns
+
+        grid.setHeight(600, Unit.PIXELS);
 
         // Add columns to the grid
         grid.addColumn(Client::getFirstname).setHeader("Имя");
@@ -84,5 +103,23 @@ public class DealsView extends VerticalLayout {
 
         // Add the grid to the layout
         add(grid);
+    }
+
+    private void disableControls() {
+        searchButton.setEnabled(false);
+        phoneTextField.setEnabled(false);
+        idCardTextField.setEnabled(false);
+    }
+
+    private void toggleEnabled() {
+        if (searchButton.isEnabled()) {
+            searchButton.setEnabled(false);
+            phoneTextField.setEnabled(false);
+            idCardTextField.setEnabled(false);
+        } else {
+            searchButton.setEnabled(true);
+            phoneTextField.setEnabled(true);
+            idCardTextField.setEnabled(true);
+        }
     }
 }
