@@ -67,8 +67,9 @@ public class DealsView extends VerticalLayout {
         grid = new Grid<>(Client.class, false); // 'false' prevents auto-creating columns
 
         // Add columns to the grid
-        grid.addColumn(Client::getFirstname).setHeader("First Name");
-        grid.addColumn(Client::getLastname).setHeader("Last Name");
+        grid.addColumn(Client::getFirstname).setHeader("Имя");
+        grid.addColumn(Client::getLastname).setHeader("Фамилия");
+        grid.addColumn(Client::getPhone).setHeader("Телефон");
 
         grid.addItemClickListener(new ComponentEventListener<ItemClickEvent<Client>>() {
             @Override
