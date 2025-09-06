@@ -1,5 +1,7 @@
 package com.example.application.views.helloworld;
 
+import com.example.application.data.entity.Client;
+import com.example.application.data.service.ClientService;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -13,6 +15,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.VaadinSession;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.annotation.security.PermitAll;
@@ -29,8 +32,12 @@ public class HelloWorldView extends VerticalLayout {
     @Autowired
     AuthenticatedUser authenticatedUser;
 
+    @Autowired
+    ClientService clientService;
+
     private Button sayHello;
     private TextField textField;
+    private Grid<Client> grid;
 
     public HelloWorldView() {
 
@@ -53,48 +60,26 @@ public class HelloWorldView extends VerticalLayout {
         add(sayHello);
         add(textField);
 
-        class Person {
-            private String firstName;
-            private String lastName;
-            private String email;
-
-            public Person(String firstName, String lastName, String email) {
-                this.firstName = firstName;
-                this.lastName = lastName;
-                this.email = email;
-            }
-
-            public String getFirstName() { return firstName; }
-            public String getLastName() { return lastName; }
-            public String getEmail() { return email; }
-        }
-
         // Create a Grid instance
-        Grid<Person> grid = new Grid<>(Person.class, false); // 'false' prevents auto-creating columns
+        grid = new Grid<>(Client.class, false); // 'false' prevents auto-creating columns
 
         // Add columns to the grid
-        grid.addColumn(Person::getFirstName).setHeader("First Name");
-        grid.addColumn(Person::getLastName).setHeader("Last Name");
-        grid.addColumn(Person::getEmail).setHeader("Email Address");
+        grid.addColumn(Client::getFirstname).setHeader("First Name");
+        grid.addColumn(Client::getLastname).setHeader("Last Name");
 
-        // Create some sample data
-        List<Person> people = Arrays.asList(
-                new Person("John", "Doe", "john.doe@example.com"),
-                new Person("Jane", "Smith", "jane.smith@example.com"),
-                new Person("Peter", "Jones", "peter.jones@example.com")
-        );
-
-        // Set the data items for the grid
-        grid.setItems(people);
-
-        grid.addItemClickListener(new ComponentEventListener<ItemClickEvent<Person>>() {
+        grid.addItemClickListener(new ComponentEventListener<ItemClickEvent<Client>>() {
             @Override
-            public void onComponentEvent(ItemClickEvent<Person> personItemClickEvent) {
+            public void onComponentEvent(ItemClickEvent<Client> personItemClickEvent) {
                 Notification.show("111");
             }
         });
 
         // Add the grid to the layout
         add(grid);    }
+
+    @PostConstruct
+    void fillData() {
+        grid.setItems(clientService.all());
+    }
 
 }

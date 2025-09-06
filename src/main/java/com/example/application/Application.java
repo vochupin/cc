@@ -6,6 +6,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * The entry point of the Spring Boot application.
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @Theme(value = "flowwithjwtauthentication")
+//@ComponentScan(basePackages = "com.example.application")
 @PWA(name = "Flow with JWT authentication", shortName = "Flow with JWT authentication", offlineResources = {
         "images/logo.png"})
 public class Application implements AppShellConfigurator {
