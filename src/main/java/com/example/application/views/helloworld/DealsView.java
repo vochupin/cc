@@ -6,28 +6,25 @@ import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.VaadinSession;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.annotation.security.PermitAll;
 
-import java.util.Arrays;
-import java.util.List;
-
-@PageTitle("Hello World")
-@Route(value = "hello", layout = MainLayout.class)
+@PageTitle("Договоры")
+@Route(value = "deals", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @PermitAll
-public class HelloWorldView extends VerticalLayout {
+public class DealsView extends VerticalLayout {
 
     @Autowired
     AuthenticatedUser authenticatedUser;
@@ -35,11 +32,12 @@ public class HelloWorldView extends VerticalLayout {
     @Autowired
     ClientService clientService;
 
-    private Button sayHello;
-    private TextField textField;
+    private Button searchButton;
+    private final TextField phoneTextField;
+    private final TextField idCardTextField;
     private Grid<Client> grid;
 
-    public HelloWorldView() {
+    public DealsView() {
 
         /*
          * This trivial Vaadin session serializes just fine. To make testing
@@ -48,17 +46,22 @@ public class HelloWorldView extends VerticalLayout {
          * lost on each server restart.
          */
         VaadinSession.getCurrent().setAttribute("foo", new Object());
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
 
-        sayHello = new Button("Say hello!");
-        sayHello.addClickListener(e -> {
-            Notification.show("Hello " + authenticatedUser.get().get().getName());
+        searchButton = new Button("Найти");
+        searchButton.addClickListener(e -> {
+            grid.setItems(clientService.all());
         });
 
-        textField = new TextField("Текст");
+        phoneTextField = new TextField("Телефон");
+        idCardTextField = new TextField("ID card");
+
+        horizontalLayout.add(phoneTextField);
+        horizontalLayout.add(idCardTextField);
 
 
-        add(sayHello);
-        add(textField);
+        add(horizontalLayout);
+        add(searchButton);
 
         // Create a Grid instance
         grid = new Grid<>(Client.class, false); // 'false' prevents auto-creating columns
@@ -70,16 +73,23 @@ public class HelloWorldView extends VerticalLayout {
         grid.addItemClickListener(new ComponentEventListener<ItemClickEvent<Client>>() {
             @Override
             public void onComponentEvent(ItemClickEvent<Client> personItemClickEvent) {
-                Notification.show("111");
+                Dialog dialog = new Dialog();
+
+                dialog.setHeaderTitle("New employee");
+
+                VerticalLayout dialogLayout = new VerticalLayout();
+                dialog.add(dialogLayout);
+
+                Button saveButton = new Button("Save");
+                Button cancelButton = new Button("Cancel");
+                dialog.getFooter().add(cancelButton);
+                dialog.getFooter().add(saveButton);
+
+                dialog.open();
             }
         });
 
         // Add the grid to the layout
-        add(grid);    }
-
-    @PostConstruct
-    void fillData() {
-        grid.setItems(clientService.all());
+        add(grid);
     }
-
 }

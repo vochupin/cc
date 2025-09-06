@@ -19,11 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-@PageTitle("Hello World1")
-@Route(value = "hello1", layout = MainLayout.class)
-@RouteAlias(value = "1", layout = MainLayout.class)
+@PageTitle("Настройки")
+@Route(value = "settings", layout = MainLayout.class)
+@RouteAlias(value = "sett", layout = MainLayout.class)
 @PermitAll
-public class HelloWorld1View extends VerticalLayout {
+public class SettingsView extends VerticalLayout {
 
     @Autowired
     AuthenticatedUser authenticatedUser;
@@ -31,7 +31,7 @@ public class HelloWorld1View extends VerticalLayout {
     private Button sayHello;
     private TextField textField;
 
-    public HelloWorld1View() {
+    public SettingsView() {
 
         /*
          * This trivial Vaadin session serializes just fine. To make testing

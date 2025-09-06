@@ -2,8 +2,8 @@ package com.example.application.views;
 
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
-import com.example.application.views.helloworld.HelloWorld1View;
-import com.example.application.views.helloworld.HelloWorldView;
+import com.example.application.views.helloworld.SettingsView;
+import com.example.application.views.helloworld.DealsView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -58,7 +58,7 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("My App");
+        H1 appName = new H1("Макет");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
@@ -72,11 +72,10 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         SideNav nav = new SideNav();
 
-        if (accessChecker.hasAccess(HelloWorldView.class)) {
-            nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
-            nav.addItem(new SideNavItem("Hello World21", HelloWorld1View.class, LineAwesomeIcon.GLOBE_SOLID.create()));
+        if (accessChecker.hasAccess(DealsView.class)) {
+            nav.addItem(new SideNavItem("Договоры", DealsView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
+            nav.addItem(new SideNavItem("Настройки", SettingsView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
         }
-
         return nav;
     }
 
