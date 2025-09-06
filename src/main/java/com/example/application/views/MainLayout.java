@@ -2,8 +2,6 @@ package com.example.application.views;
 
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
-import com.example.application.views.helloworld.SettingsView;
-import com.example.application.views.helloworld.DealsView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;

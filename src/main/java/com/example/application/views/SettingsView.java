@@ -1,4 +1,4 @@
-package com.example.application.views.helloworld;
+package com.example.application.views;
 
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;

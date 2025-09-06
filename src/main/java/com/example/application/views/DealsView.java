@@ -1,10 +1,12 @@
-package com.example.application.views.helloworld;
+package com.example.application.views;
 
 import com.example.application.data.entity.Client;
 import com.example.application.data.service.ClientService;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -36,6 +38,8 @@ public class DealsView extends VerticalLayout {
     private final TextField phoneTextField;
     private final TextField idCardTextField;
     private Grid<Client> grid;
+
+    private Dialog dialog;
 
     public DealsView() {
 
@@ -74,19 +78,7 @@ public class DealsView extends VerticalLayout {
         grid.addItemClickListener(new ComponentEventListener<ItemClickEvent<Client>>() {
             @Override
             public void onComponentEvent(ItemClickEvent<Client> personItemClickEvent) {
-                Dialog dialog = new Dialog();
-
-                dialog.setHeaderTitle("New employee");
-
-                VerticalLayout dialogLayout = new VerticalLayout();
-                dialog.add(dialogLayout);
-
-                Button saveButton = new Button("Save");
-                Button cancelButton = new Button("Cancel");
-                dialog.getFooter().add(cancelButton);
-                dialog.getFooter().add(saveButton);
-
-                dialog.open();
+                new DealDialog().open();
             }
         });
 
